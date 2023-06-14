@@ -226,6 +226,7 @@ $('document').ready(function () {
           alert(data.message);
         } else if (data.status === 'success') {
           alert(data.message);
+          alert(data.message);
 
           var updatedDataId = id;
           var backendData = data.data;
