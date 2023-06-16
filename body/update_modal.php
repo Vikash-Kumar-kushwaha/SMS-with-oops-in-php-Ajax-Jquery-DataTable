@@ -136,8 +136,14 @@
 
 </div>
 
-<div class="modal" id="myModal2" style="background-color: rgba(0, 0, 0, 0.5) !important; z-index:99">
+<div class="modal" id="myModal2" style="background-color: rgba(0, 0, 0, 0.5) !important; z-index:1999">
     <div id="card-model" class="modal-content w-50 p-0">
         <?php include('../body/studentCard.php') ?>
     </div>
+</div>
+
+<div class="modal" id="myModal3" style="background-color: rgba(0, 0, 0, 0.5) !important; z-index:1999 !important">
+    <!-- <div id="card-model" class="modal-content w-50 p-0"> -->
+    <?php include('../body/registration.php') ?>
+    <!-- </div> -->
 </div>

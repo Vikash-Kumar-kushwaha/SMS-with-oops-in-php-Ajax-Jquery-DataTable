@@ -15,26 +15,29 @@
                         Department
                     </button>
                     <ul class="dropdown-menu p-0">
-                        <li class=""><a class="text-dark text-decoration-none fs-6" href="#" data-dept="1">CSE</a></li>
-                        <li class=""><a class="text-dark text-decoration-none fs-6" href="#" data-dept="3">MECH</a></li>
-                        <li class=""><a class="text-dark text-decoration-none fs-6" href="#" data-dept="2">IT</a></li>
-                        <li class=""><a class="text-dark text-decoration-none fs-6" href="#" data-dept="4">AGRI</a></li>
+                        <li class=""><a class="text-dark text-decoration-none fs-6" data-dept="1"
+                                style="cursor:pointer;">CSE</a></li>
+                        <li class=""><a class="text-dark text-decoration-none fs-6" data-dept="3"
+                                style="cursor:pointer;">MECH</a></li>
+                        <li class=""><a class="text-dark text-decoration-none fs-6" data-dept="2"
+                                style="cursor:pointer;">IT</a></li>
+                        <li class=""><a class="text-dark text-decoration-none fs-6" data-dept="4"
+                                style="cursor:pointer;">AGRI</a></li>
                     </ul>
                 </div>
                 <!-- <div class="text-center flex-grow-1  fs-4">Student information</div> -->
                 <button class="btn btn-info addNewStudent">
-                    <a class="text-decoration-none text-white" href="javascript:void(0)">Add New
-                        Student</a>
+                    Add New Student
                 </button>
             </div>
         <?php endif; ?>
 
-        <table class="display" id="myTable">
+        <table class="display cell-border compact stripe" data-table="test" id="myTable">
             <thead>
 
                 <th scope="col" data-column="studid">Stud.id</th>
                 <th scope="col" data-column="StudName">StudName</th>
-                <th class="" scope="col">email</th>
+                <!-- <th class="" scope="col">email</th> -->
                 <th class="" scope="col">fatherName</th>
                 <th class="" scope="col">Date Of Birth</th>
                 <th class="" scope="col">Dept</th>

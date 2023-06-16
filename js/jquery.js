@@ -1,25 +1,83 @@
 $('document').ready(function () {
   //load table data from backend
-  $('#myTable').DataTable({
+  var table = $("table[data-table='test']").DataTable({
+    //This code snnipet for set limit length in dropdown of data table
+    serverSide:true,
+    paging:true,
+    pageLength: 5,
+    lengthMenu: [
+      [5, 10, 20, -1],
+      [5, 10, 20, 'All'],
+    ],
+    //load table data from backend
     ajax: {
       url: '../db_operation/select.php', // URL to the server-side script that fetches the data
-      type: 'GET', // HTTP method to use for the AJAX request
-      dataSrc: 'data', // JSON property containing the array of records
-      succees: function (dataSrc) {
-        var datas = JSON.parse(dataSrc);
-        console.log(datas);
-      },
+      type: 'get',
+      dataSrc: 'data',
     },
     columns: [
       { data: 'studid' },
       { data: 'StudName' },
-      { data: 'mail', visible: false },
       { data: 'fatherName' },
       { data: 'dob' },
       { data: 'dept_name' },
-      { data: 'uploadfile' },
-      { data: 'view' },
-      { data: 'operation' },
+      {
+        data: 'uploadfile',
+        render: function (data, type, row) {
+          if (data === 'No file available') {
+            return data;
+          } else {
+            var files = data.split(',');
+            var buttons = '';
+            files.forEach(function (file) {
+              var fileName = file.split('/').pop();
+              buttons += `
+          <a class="btn btn-success py-1 px-1" title="Download file" href="${file}" download="${fileName}">
+            <img class="text-white" src="../fileUpload/file-earmark-arrow-down.svg" alt="svg image">
+          </a>
+        `;
+            });
+            return buttons;
+          }
+        },
+      },
+      {
+        data: 'studid',
+        render: function (data, type, row) {
+          var viewButton = `
+        <button name="viewEye" type="submit" class="eye-btn border-0 bg-body" data-student-id="${data}">
+          <i class="fas fa-eye"></i>
+        </button>
+      `;
+          return `${viewButton}`;
+        },
+      },
+      {
+        data: 'studid',
+        render: function (data, type, row) {
+          var operationButtons = '';
+
+          var rowData = $('#myTable').DataTable().row(row).data();
+          var viewData = rowData.role;
+          if (viewData === 'admin') {
+            operationButtons += `
+        <button data-delete-studid="${data}" class="btn btn-danger btn-sm" type="submit" name="deleteuser" value="deleteuser">
+          <i class="fas fa-trash"></i>
+        </button>
+      `;
+          }
+          operationButtons += `
+        <button type="submit" name="update-btn" id="openButton" data-student-id="${data}" class="btn dialogbtn btn-sm btn-success">
+          <i class="fas fa-edit"></i>
+        </button>
+      `;
+
+          return `
+        ${operationButtons}
+      `;
+        },
+      },
+
       { data: 'profilePic', visible: false },
       { data: 'gender', visible: false },
       { data: 'motherName', visible: false },
@@ -28,6 +86,8 @@ $('document').ready(function () {
       { data: 'addr', visible: false },
       { data: 'user', visible: false },
       { data: 'dept_id', visible: false },
+      { data: 'role', visible: false },
+      { data: 'mail', visible: false },
     ],
     columnDefs: [
       {
@@ -42,24 +102,18 @@ $('document').ready(function () {
         var rowData = $('#myTable').DataTable().row(row).data();
 
         // Access the hidden data
-        var viewData = rowData.profilePic;
+        var viewData = rowData.role;
 
         // Process the data as needed
         console.log(viewData);
       });
     },
   });
-  // loadTableData();
 
   //data table code snnipet---------------->
 
-  // $('#myTable').DataTable();
-
-  //sidebar handler snippet
-
   $('.sidebar-btn').click(function () {
     $('.sidebar-container').toggleClass('sidebar-toggle');
-    // $('.sidebar-container').css({ width: '200px', display: 'inline' });
     $('#main').toggleClass('main-container');
   });
 
@@ -92,9 +146,124 @@ $('document').ready(function () {
   $(document).on('click', 'a[data-dept]', function (e) {
     e.preventDefault();
     var departmentId = $(this).data('dept');
-    loadTableData(departmentId);
-  });
+    $.ajax({
+      url: '../db_operation/select.php', // URL to the server-side script that fetches the data
+      type: 'post',
+      data: { dept: departmentId },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        $("table[data-table='test']").addClass('hiiiiii');
+        $("table[data-table='test'] #myTable").DataTable().clear().destroy();
 
+        $("table[data-table='test'] #myTable").DataTable({
+          data:data,
+          //This code snnipet for set limit length in dropdown of data table
+          pageLength: 5,
+          lengthMenu: [
+            [5, 10, 20, -1],
+            [5, 10, 20, 'All'],
+          ],
+          // data: response,
+          columns: [
+            { 'data': 'studid' },
+            { 'data': 'StudName' },
+
+            { 'data': 'fatherName' },
+            { 'data': 'dob' },
+            { 'data': 'dept_name' },
+            {
+              'data': 'uploadfile',
+              render: function (data, type, row) {
+                if (data === 'No file available') {
+                  return data;
+                } else {
+                  var files = data.split(',');
+                  var buttons = '';
+                  files.forEach(function (file) {
+                    var fileName = file.split('/').pop();
+                    buttons += `
+        <a class="btn btn-success py-1 px-1" title="Download file" href="${file}" download="${fileName}">
+          <img class="text-white" src="../fileUpload/file-earmark-arrow-down.svg" alt="svg image">
+        </a>
+      `;
+                  });
+                  return buttons;
+                }
+              },
+            },
+            {
+              'data': 'studid',
+              render: function (data, type, row) {
+                var viewButton = `
+      <button name="viewEye" type="submit" class="eye-btn border-0 bg-body" data-student-id="${data}">
+        <i class="fas fa-eye"></i>
+      </button>
+    `;
+                return `${viewButton}`;
+              },
+            },
+            {
+              'data': 'studid',
+              render: function (data, type, row) {
+                var operationButtons = '';
+
+                var rowData = $('#myTable').DataTable().row(row).data();
+                var viewData = rowData.role;
+                if (viewData === 'admin') {
+                  operationButtons += `
+      <button data-delete-studid="${data}" class="btn btn-danger btn-sm" type="submit" name="deleteuser" value="deleteuser">
+        <i class="fas fa-trash"></i>
+      </button>
+    `;
+                }
+                operationButtons += `
+      <button type="submit" name="update-btn" id="openButton" data-student-id="${data}" class="btn dialogbtn btn-sm btn-success">
+        <i class="fas fa-edit"></i>
+      </button>
+    `;
+
+                return `
+      ${operationButtons}
+    `;
+              },
+            },
+
+            { 'data': 'profilePic', visible: false },
+            { 'data': 'gender', visible: false },
+            { 'data': 'motherName', visible: false },
+            { 'data': 'educationlvl', visible: false },
+            { 'data': 'mob', visible: false },
+            { 'data': 'addr', visible: false },
+            { 'data': 'user', visible: false },
+            { 'data': 'dept_id', visible: false },
+            { 'data': 'role', visible: false },
+            { 'data': 'mail', visible: false },
+          ],
+          columnDefs: [
+            {
+              targets: [2, 6, 7, 8],
+              orderable: false,
+            },
+          ],
+          initComplete: function () {
+            // Handle click event on the "view" button
+            $(document).on('click', "button[name='viewEye']", function () {
+              var row = $(this).closest('tr');
+              var rowData = $('#myTable').DataTable().row(row).data();
+
+              // Access the hidden data
+              var viewData = rowData.role;
+
+              // Process the data as needed
+              console.log(viewData);
+            });
+          },
+        });
+      },
+    });
+  });
+  // loadTableData(departmentId);
   // function loadTableData() {
   //   $('#myTable').DataTable({
   //     ajax: {
@@ -125,10 +294,6 @@ $('document').ready(function () {
     $('table')
       .find('tbody tr')
       .each(function (index, row) {
-        // var rowData = $(row).text().toLocaleLowerCase();
-        // var match = rowData.indexOf(searchTerm) > -1;
-        // $(row).toggle(match);
-
         var nameColumn = $(row).find('td:nth-child(2)');
         var rowData = nameColumn.text().toLowerCase();
         var match = rowData.indexOf(searchTerm) > -1;
@@ -226,7 +391,7 @@ $('document').ready(function () {
           alert(data.message);
         } else if (data.status === 'success') {
           alert(data.message);
-          alert(data.message);
+          // alert(data.message);
 
           var updatedDataId = id;
           var backendData = data.data;
@@ -254,7 +419,7 @@ $('document').ready(function () {
 
           // Redraw the DataTable to reflect the updated row
           table.columns().visible(true, false); // Show all columns
-          table.columns(':gt(6)').visible(false, false); // Hide columns after Dept column
+          table.columns(':gt(8)').visible(false, false); // Hide columns after Dept column
           table.draw(false);
           $('.close').click();
         }
@@ -338,10 +503,12 @@ $('document').ready(function () {
 
   //new student registration page load snnipet
 
-  $(document).on('click', '.addNewStudent', function () {
+  $(document).on('click', '.addNewStudent', function (e) {
+    e.preventDefault();
     // $('.addNewStudent').click(function () {
     console.log('clicked');
-    $('#main').load('../body/registration.php');
+    // $('#main').load('../body/registration.php');
+    $('#myModal3').show();
   });
 
   //Open Total department page
@@ -417,64 +584,78 @@ $('document').ready(function () {
     function (event) {
       // Prevent form submission
       event.preventDefault();
-
+      console.log('clicked');
       // Reset error messages
       $('.error').text('');
 
       // Validate inputs
       var isValid = true;
-
+      var registrationId = $(this).children().children().children();
       // Validate Date of Birth
-      var dob = $('#dob').val();
+      var dob = registrationId.children('#dob').val();
       if (dob.trim() === '') {
         $('#dobError').text('Please enter your date of birth');
         isValid = false;
       }
 
       // Validate Gender
-      var gender = $("input[name='GenderVal']:checked").val();
+      var gender = registrationId
+        .children()
+        .children("input[name='GenderVal']:checked")
+        .val();
+
       if (!gender) {
         $('#genderError').text('Please select your gender');
         isValid = false;
       }
 
       // Validate Email
-      // var email = $("#mail").val();
-      // if (email.trim() === "") {
-      //     $("#mailError").text("Please enter your email");
-      //     isValid = false;
-      // }
+      var email = registrationId.children('#mail').val();
+      if (email.trim() === '') {
+        $('#mailError').text('Please enter your email');
+        isValid = false;
+      }
 
       // Validate Level
-      var level = $('#lvl').val();
-      if (level === 'select school') {
+      var level = registrationId.children('select[name="edulevel"]').val();
+      console.log(level);
+      if (level === '') {
         $('#levelError').text('Please select your level');
         isValid = false;
       }
 
       // Validate Department
-      var department = $("select[name='dept']").val();
-      if (department === 'Select Dept.') {
+      var department = registrationId.children("select[name='dept']").val();
+      // console.log(department);
+      if (department === '') {
+        console.log(department);
         $('#deptError').text('Please select your department');
         isValid = false;
       }
 
       // Validate Technical Skills
-      var skills = $("input[name='skill[]']:checked").length;
+      var skills = registrationId.children(
+        "input[name='skill[]']:checked"
+      ).length;
       if (skills === 0) {
         $('#skillsError').text('Please select at least one skill');
         isValid = false;
       }
 
       // Validate Comments
-      var comments = $('#floatingTextarea2').val();
+      var comments = registrationId
+        .children()
+        .children('#floatingTextarea2')
+        .val();
+      console.log(comments);
       if (comments.trim() === '') {
+        console.log(comments);
         $('#commentsError').text('Please enter your comments');
         isValid = false;
       }
 
       // Validate File Upload
-      var fileUpload = $("input[name='file[]']");
+      var fileUpload = registrationId.children("input[name='file[]']");
       var fileUploadError = $('#fileUploadError');
       var files = fileUpload[0].files;
 
@@ -484,7 +665,7 @@ $('document').ready(function () {
       }
 
       // Validate Profile Picture
-      var profilePic = $("input[name='profilepic']");
+      var profilePic = registrationId.children("input[name='profilepic']");
       var profilePicError = $('#profilePicError');
       var profilePicFile = profilePic[0].files[0];
 
@@ -492,13 +673,14 @@ $('document').ready(function () {
         profilePicError.text('Please upload your profile picture');
         isValid = false;
       }
+      console.log(isValid);
 
       // If all inputs are valid, submit the form
       if (isValid) {
         var formData = new FormData(this);
         formData.append('action', 'insert');
         // Submit the form to the backend
-
+        console.log(formData);
         $.ajax({
           url: '../db_operation/databaseOperation.php',
           type: 'POST',
@@ -514,8 +696,9 @@ $('document').ready(function () {
               // Handle the response from the backend
               if (result.status === 'success') {
                 alert(result.message);
-
-                $('#main').load('../body/content.php .body-content');
+                dataTable.ajax.reload();
+                $('.close-3').click();
+                // $('#main').load('../body/content.php .body-content');
                 // loadTableData();
               } else if (result.status === 'error') {
                 var errorMessage = '';
@@ -544,6 +727,9 @@ $('document').ready(function () {
       }
     }
   );
+  $('.close-3').click(function () {
+    $('#myModal3').hide();
+  });
 
   $(document).on('click', "button[name='deleteuser']", function (e) {
     e.preventDefault();

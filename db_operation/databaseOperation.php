@@ -344,11 +344,11 @@ class databaseOperation extends databaseConn
     }
     public function select()
     {
-        $departmentId = isset($_GET['dept']) ? $_GET['dept'] : '';
+        $departmentId = isset($_POST['dept']) ? $_POST['dept'] : '';
         $simpleQuery = "";
         if (isset($_SESSION['id']) && $_SESSION['role'] === 'admin') {
             if (!empty($departmentId)) {
-                $simpleQuery = "SELECT * FROM student1,department where student1.dept_id='$departmentId' AND department.dept_id=student1.dept_id";
+                $simpleQuery = "SELECT s.studid,s.StudName,s.mail,s.motherName,s.fatherName,s.dob,d.dept_name,s.uploadfile,s.profilePic, s.gender,s.educationlvl,s.mob,s.addr,s.user,d.dept_id FROM student1 as s, department as d where s.dept_id='$departmentId' AND d.dept_id=s.dept_id";
             } else {
                 $simpleQuery = "SELECT s.studid,s.StudName,s.mail,s.motherName,s.fatherName,s.dob,d.dept_name,s.uploadfile,s.profilePic, s.gender,s.educationlvl,s.mob,s.addr,s.user,d.dept_id FROM student1 as s, department as d WHERE s.dept_id = d.dept_id";
             }

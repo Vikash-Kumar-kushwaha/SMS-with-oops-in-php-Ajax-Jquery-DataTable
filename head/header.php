@@ -15,9 +15,8 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <!-- <link rel="stylesheet" href="../js/datatables.min.css"> -->
+    <script src="../DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" href="../DataTables/datatables.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <title>Student Management System</title>
 </head>

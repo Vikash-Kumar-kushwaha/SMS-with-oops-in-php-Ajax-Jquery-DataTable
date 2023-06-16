@@ -91,166 +91,168 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style> -->
 
 
-<div class="container py-1">
-    <div class="d-flex justify-content-center ">
-        <form method="post" data-registration="registration" class="w-50 position-fixed" enctype="multipart/form-data">
-            <div class="table-data shadow-lg p-3 mb-5 bg-white rounded">
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="idnumber">Student Id:</label>
-                        <input class="form-control" type="text" name="Studid" value="<?php echo $sid; ?>" id="idnumber"
-                            placeholder="Student id" disabled />
+<!-- <div class="container py-1"> -->
+<div class="d-flex justify-content-center" style="margin-top:5rem;">
+    <form method="post" data-registration="registration" class="w-50" enctype="multipart/form-data">
+        <div class="table-data p-3 bg-white">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn-close close-3" aria-label="Close" style="font-size:12px;"></button>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="idnumber">Student Id:</label>
+                    <input class="form-control" type="text" name="Studid" value="<?php echo $sid; ?>" id="idnumber"
+                        placeholder="Student id" disabled />
 
-                        <span>
+                    <span>
 
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="fname">Full Name:</label>
-                        <input data-validation="name" class="form-control" type="text" name="FullName"
-                            value="<?php echo $fName; ?>" id="fname" placeholder="first name" />
-                        <span id="fnameError">
-
-                        </span>
-                    </div>
+                    </span>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="father">Father Name:</label>
-                        <input data-validation="name" class="form-control" type="text" name="fathername"
-                            value="<?php echo $fatherName; ?>" id="father" placeholder="Father Name" />
-                        <span id="fatherError">
+                <div class="col-6">
+                    <label class="form-label" for="fname">Full Name:</label>
+                    <input data-validation="name" class="form-control" type="text" name="FullName"
+                        value="<?php echo $fName; ?>" id="fname" placeholder="first name" />
+                    <span id="fnameError">
 
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="mother">Mother Name:</label>
-                        <input data-validation="name" class="form-control" type="text" name="mothername"
-                            value="<?php echo $motherName; ?>" id="mother" placeholder="Mother Name" />
-                        <span id="motherError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="dob">Date Of Birth: </label>
-                        <input class="form-control" type="date" id="dob" name="dateofbirth"
-                            value="<?php echo $DOB; ?>" />
-                        <span id="dobError">
-
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-check-label" for="gender">Gender: </label>
-                        <div class="form-check">
-                            <label class="form-check-label" for="m">Male</label>
-                            <input class="form-check-input" type="radio" name="GenderVal" value="male" id="m" />
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="f">Female</label>
-                            <input class="form-check-input" type="radio" name="GenderVal" value="female" id="f" />
-                        </div>
-                        <span id="genderError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="mail">E-mail:</label>
-                        <input class="form-control" type="email" name="Email" value="<?php echo $mail; ?>" id="mail"
-                            placeholder="xyz@gmail.com" />
-                        <span id="mailError">
-
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="lvl">Level:</label>
-                        <select class="form-select" name="edulevel" id="lvl">
-                            <option selected>select school</option>
-                            <option value="highschool">High School</option>
-                            <option value="secondaryschool">Secondary School</option>
-                            <option value="bachelors">Bachelors</option>
-                            <option value="masters">Masters</option>
-                        </select>
-                        <span id="levelError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="">Department: </label>
-                        <select class="form-select" name="dept" id="">
-                            <option selected>Select Dept.</option>
-                            <option value="1">CSE</option>
-                            <option value="3">MECH</option>
-                            <option value="2">IT</option>
-                            <option value="4">AGRI</option>
-                        </select>
-                        <span id="deptError">
-
-                        </span>
-                    </div>
-                    <div class="col-6 py-3">
-                        <!-- <label class="form-check-label" for="">Skills:</label> -->
-                        Technical Skills <input class="form-check-input" type="checkbox" name="skill[]"
-                            value="Technical skills" id="ts" />
-                        <label class="form-label" for="ts"></label>
-                        Analytical Skills<input class="form-check-input" type="checkbox" name="skill[]"
-                            value="Analytical skill" id="as" />
-                        <!-- <label class="form-label" for="as"></label> -->
-                        <span id="skillsError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="">Tel/Mob:</label>
-                        <input data-validation="mobNumber" class="form-control " type="number" name="mobNumber"
-                            maxlength="10" value="<?php echo $mob; ?>" placeholder="xxxxxxxxxxx" />
-                        <span id="mobNumberError">
-
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                name="add" style="height: 70px"></textarea>
-                            <label for="floatingTextarea2">Comments</label>
-                        </div>
-                        <span id="commentsError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="">Upload Document</label>
-                        <input class="form-control" type="file" name="file[]" id="" accept=".pdf" multiple>
-                        <span id="fileUploadError">
-
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="">Profile Pic</label>
-                        <input class="form-control" type="file" name="profilepic" id="" accept=".jpg">
-                        <span id="profilePicError">
-
-                        </span>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <div class="col-6">
-                        <input id="submit-btn" class="btn btn-success w-100" type="submit" name="submit">
-                    </div>
-                    <div class="col-6">
-                        <input class="btn btn-info w-100" type="reset">
-                    </div>
+                    </span>
                 </div>
             </div>
-        </form>
-    </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="father">Father Name:</label>
+                    <input data-validation="name" class="form-control" type="text" name="fathername"
+                        value="<?php echo $fatherName; ?>" id="father" placeholder="Father Name" />
+                    <span id="fatherError">
+
+                    </span>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="mother">Mother Name:</label>
+                    <input data-validation="name" class="form-control" type="text" name="mothername"
+                        value="<?php echo $motherName; ?>" id="mother" placeholder="Mother Name" />
+                    <span id="motherError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="dob">Date Of Birth: </label>
+                    <input class="form-control" type="date" id="dob" name="dateofbirth" value="<?php echo $DOB; ?>" />
+                    <span id="dobError">
+
+                    </span>
+                </div>
+                <div class="col-6">
+                    <label class="form-check-label" for="gender">Gender: </label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="m">Male</label>
+                        <input class="form-check-input" type="radio" name="GenderVal" value="male" id="m" />
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="f">Female</label>
+                        <input class="form-check-input" type="radio" name="GenderVal" value="female" id="f" />
+                    </div>
+                    <span id="genderError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="mail">E-mail:</label>
+                    <input class="form-control" type="email" name="Email" value="<?php echo $mail; ?>" id="mail"
+                        placeholder="xyz@gmail.com" />
+                    <span id="mailError">
+
+                    </span>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="lvl">Level:</label>
+                    <select class="" name="edulevel" id="lvl">
+                        <option value="">select school</option>
+                        <option value="highschool">High School</option>
+                        <option value="secondaryschool">Secondary School</option>
+                        <option value="bachelors">Bachelors</option>
+                        <option value="masters">Masters</option>
+                    </select>
+                    <span id="levelError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="">Department: </label>
+                    <select class="" name="dept" id="adddept">
+                        <option value="">Select Dept.</option>
+                        <option value="1">CSE</option>
+                        <option value="3">MECH</option>
+                        <option value="2">IT</option>
+                        <option value="4">AGRI</option>
+                    </select>
+                    <span id="deptError">
+
+                    </span>
+                </div>
+                <div class="col-6 py-3">
+                    <!-- <label class="form-check-label" for="">Skills:</label> -->
+                    Technical Skills <input class="form-check-input" type="checkbox" name="skill[]"
+                        value="Technical skills" id="ts" />
+                    <label class="form-label" for="ts"></label>
+                    Analytical Skills<input class="form-check-input" type="checkbox" name="skill[]"
+                        value="Analytical skill" id="as" />
+                    <!-- <label class="form-label" for="as"></label> -->
+                    <span id="skillsError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="">Tel/Mob:</label>
+                    <input data-validation="mobNumber" class="form-control " type="number" name="mobNumber"
+                        maxlength="10" value="<?php echo $mob; ?>" placeholder="xxxxxxxxxxx" />
+                    <span id="mobNumberError">
+
+                    </span>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            name="add" style="height: 70px"></textarea>
+                        <label for="floatingTextarea2">Comments</label>
+                    </div>
+                    <span id="commentsError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="">Upload Document</label>
+                    <input class="form-control" type="file" name="file[]" id="" accept=".pdf" multiple>
+                    <span id="fileUploadError">
+
+                    </span>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="">Profile Pic</label>
+                    <input class="form-control" type="file" name="profilepic" id="" accept=".jpg">
+                    <span id="profilePicError">
+
+                    </span>
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-6">
+                    <input id="submit-btn" class="btn btn-success w-100" type="submit" name="submit">
+                </div>
+                <div class="col-6">
+                    <input class="btn btn-info w-100" type="reset">
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+<!-- </div> -->
